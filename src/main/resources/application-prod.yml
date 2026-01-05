@@ -12,3 +12,7 @@ spring:
     hibernate:
       ddl-auto: validate
     show-sql: false
+
+admin:
+  user-id: ${ADMIN_USER_ID:admin}
+  password: ${ADMIN_PASSWORD_HASH:$2y$10$bR63tK6Xm9f4UqgMJdeWw.wyCQwBeKx6qlWQ0yxNTonkxijrghjUW}
