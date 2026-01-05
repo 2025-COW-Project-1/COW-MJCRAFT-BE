@@ -1,4 +1,4 @@
-package com.example.cowmjucraft.domain.auth.signin.domain;
+package com.example.cowmjucraft.domain.auth.domain.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,7 +16,6 @@ public class User {
 
     @Column(unique = true)
     private String userId;
-   // studentId가 될 수도 있지만, 아직 확정이 아니라서 userId로 했습니다.
 
     @Column(nullable = false)
     private String userName;
@@ -30,11 +29,22 @@ public class User {
     @Column
     private Role role;
 
-    public User(String userId, String userName, String email, String password, Role role){
+    protected User() {
+    }
+
+    public User(String userId, String userName, String email, String password, Role role) {
         this.userId = userId;
         this.userName = userName;
         this.email = email;
         this.password = password;
+        this.role = role;
+    }
+
+    public void updatePassword(String encodedPassword) {
+        this.password = encodedPassword;
+    }
+
+    public void updateRole(Role role) {
         this.role = role;
     }
 }
