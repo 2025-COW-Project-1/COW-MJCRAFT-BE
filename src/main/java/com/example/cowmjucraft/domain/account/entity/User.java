@@ -38,4 +38,12 @@ public class User {
         this.password = password;
         this.role = role;
     }
+
+    public void updateUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void updatePassword(String password) {
+        this.password = password;
+    }
 }

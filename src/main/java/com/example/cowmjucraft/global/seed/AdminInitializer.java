@@ -41,7 +41,7 @@ public class AdminInitializer {
             return;
         }
 
-        if (userRepository.findByUserId(adminUserId).isPresent()) {
+        if (userRepository.existsByRole(Role.ADMIN)) {
             return;
         }
 
