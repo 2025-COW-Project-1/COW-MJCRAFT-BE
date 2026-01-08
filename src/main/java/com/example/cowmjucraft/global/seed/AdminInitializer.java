@@ -1,8 +1,7 @@
 package com.example.cowmjucraft.global.seed;
 
-import com.example.cowmjucraft.domain.account.entity.Role;
-import com.example.cowmjucraft.domain.account.entity.User;
-import com.example.cowmjucraft.domain.account.repository.UserRepository;
+import com.example.cowmjucraft.domain.identity.admin.entity.Admin;
+import com.example.cowmjucraft.domain.identity.admin.repository.AdminRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -20,14 +19,17 @@ import org.springframework.util.StringUtils;
 @Slf4j
 public class AdminInitializer {
 
-    private final UserRepository userRepository;
+    private final AdminRepository adminRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Value("${admin.user-id}")
-    private String adminUserId;
+    @Value("${admin.login-id}")
+    private String adminLoginId;
 
     @Value("${admin.password}")
     private String adminPassword;
+
+    @Value("${admin.email:}")
+    private String adminEmail;
 
     @EventListener(ApplicationReadyEvent.class)
     public void onApplicationReady() {
@@ -36,23 +38,25 @@ public class AdminInitializer {
 
     @Transactional
     public void seedAdminIfNecessary() {
-        if (!StringUtils.hasText(adminUserId) || !StringUtils.hasText(adminPassword)) {
-            log.warn("Admin seed skipped: admin.user-id or admin.password not set");
+        if (!StringUtils.hasText(adminLoginId) || !StringUtils.hasText(adminPassword)) {
+            log.warn("Admin seed skipped: admin.login-id or admin.password not set");
             return;
         }
 
-        if (userRepository.existsByRole(Role.ADMIN)) {
+        if (adminRepository.existsByLoginId(adminLoginId)) {
             return;
         }
+
+        String email = StringUtils.hasText(adminEmail)
+                ? adminEmail
+                : adminLoginId + "@example.com";
 
         try {
-            userRepository.save(
-                    new User(
-                            adminUserId,
-                            "관리자",
-                            adminUserId + "@example.com",
+            adminRepository.save(
+                    new Admin(
+                            adminLoginId,
                             passwordEncoder.encode(adminPassword),
-                            Role.ADMIN
+                            email
                     )
             );
         } catch (DataIntegrityViolationException ex) {
