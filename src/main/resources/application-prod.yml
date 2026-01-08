@@ -14,8 +14,9 @@ spring:
     show-sql: false
 
 admin:
-  user-id: ${ADMIN_USER_ID}
+  login-id: ${ADMIN_LOGIN_ID}
   password: ${ADMIN_PASSWORD}
+  email: ${ADMIN_EMAIL:}
 
 jwt:
   secret: ${JWT_SECRET}

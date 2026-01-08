@@ -1,6 +1,5 @@
 package com.example.cowmjucraft.global.config.jwt;
 
-import com.example.cowmjucraft.domain.account.entity.Role;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -25,13 +24,21 @@ public class JwtTokenProvider {
         this.expirationSeconds = expirationSeconds;
     }
 
-    public String generateToken(String userId, Role role) {
+    public String generateAdminToken(String loginId) {
+        return generateToken(loginId, "ADMIN");
+    }
+
+    public String generateMemberToken(String userId) {
+        return generateToken(userId, "MEMBER");
+    }
+
+    private String generateToken(String subject, String type) {
         Date now = new Date();
         Date expiry = new Date(now.getTime() + expirationSeconds * 1000);
 
         return Jwts.builder()
-                .setSubject(userId)
-                .claim("role", role.name())
+                .setSubject(subject)
+                .claim("typ", type)
                 .setIssuedAt(now)
                 .setExpiration(expiry)
                 .signWith(key, SignatureAlgorithm.HS256)
