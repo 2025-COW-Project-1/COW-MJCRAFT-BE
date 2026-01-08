@@ -8,12 +8,15 @@ public record AdminAccountUpdateRequest(
         @Schema(example = "admin")
         @NotBlank
         String currentUserId,
+
         @Schema(example = "admin1234")
         @NotBlank
         String currentPassword,
+
         @Schema(example = "new-admin")
         @NotBlank
         String newUserId,
+        
         @Schema(example = "new-password1234")
         String newPassword
 ) {
