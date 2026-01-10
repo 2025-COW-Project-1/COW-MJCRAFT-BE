@@ -1,0 +1,26 @@
+package com.example.cowmjucraft.domain.introduce.intro.controller.client;
+
+import com.example.cowmjucraft.domain.introduce.intro.dto.response.IntroduceResponseDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Tag(name = "Introduce - Content (Public)", description = "명지공방 소개 조회 API")
+public interface IntroduceControllerDocs {
+
+    @Operation(
+            summary = "명지공방 소개 조회",
+            description = "명지공방 소개 내용을 조회합니다."
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "성공",
+                    content = @Content(schema = @Schema(implementation = IntroduceResponseDto.class))
+            )
+    })
+    IntroduceResponseDto getIntroduceContent();
+}
